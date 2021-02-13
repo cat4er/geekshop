@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mainapp',
     'import_export',
+    'authnapp',
+
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Import-export
 
 IMPORT_EXPORT_USE_TRANSACTIONS = True
+
+# Auth model
+AUTH_USER_MODEL = 'authnapp.ShopUser'
