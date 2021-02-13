@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 
 from .models import ShopUser
+from string import ascii_letters
 
 
 class ShopUserLoginForm(AuthenticationForm):
@@ -28,6 +29,13 @@ class ShopUserRegisterForm(UserCreationForm):
             raise forms.ValidationError("Вы слишком молоды!")
         return data
 
+    def clean_first_name(self):
+        data = self.cleaned_data["first_name"]
+        for c in data:
+            if c not in ascii_letters:
+                raise forms.ValidationError("Введите латинскими буквами")
+        return data
+
     class Meta:
         model = ShopUser
         fields = ("username", "first_name", "password1", "password2", "email", "age", "avatar")
@@ -45,6 +53,13 @@ class ShopUserEditForm(UserChangeForm):
         if data < 18:
             raise forms.ValidationError("Вы слишком молоды!")
 
+        return data
+
+    def clean_first_name(self):
+        data = self.cleaned_data["first_name"]
+        for c in data:
+            if c not in ascii_letters:
+                raise forms.ValidationError("Введите латинскими буквами")
         return data
 
     class Meta:
