@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "mainapp",
     "import_export",
     "authnapp",
+    'basketapp',
 ]
 
 MIDDLEWARE = [
