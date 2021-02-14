@@ -34,6 +34,9 @@
 <a href="#" class="search"></a>
 <a href="{% url 'basket:view' %}" class="basket">
     <span>
-        {% if basket %} {{ basket|length }} {% endif %}
+        {% if basket %}
+        {{ basket|length }}
+        {{ total }}
+        {% endif %}
     </span>
 </a>
