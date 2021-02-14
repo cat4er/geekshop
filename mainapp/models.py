@@ -1,9 +1,8 @@
-
 # Create your models here.
 
 from django.db import models
-# from import_export.admin import ImportExportActionModelAdmin
 
+# from import_export.admin import ImportExportActionModelAdmin
 
 
 class ProductCategory(models.Model):
@@ -35,6 +34,7 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.pk} {self.email}"
+
 
 # class ProductAdmin(ImportExportActionModelAdmin):
 #     pass

@@ -1,8 +1,9 @@
+from string import ascii_letters
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 
 from .models import ShopUser
-from string import ascii_letters
 
 
 class ShopUserLoginForm(AuthenticationForm):
