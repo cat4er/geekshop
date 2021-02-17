@@ -69,18 +69,6 @@ def products(request, pk=None):
     return render(request, "mainapp/products.html", content)
 
 
-def product(request, pk):
-    title = "продукты"
-    content = {
-        "title": title,
-        "links_menu": ProductCategory.objects.all(),
-        "product": get_object_or_404(Product, pk=pk),
-        "basket": get_basket(request.user),
-        "media_url": settings.MEDIA_URL,
-    }
-    return render(request, "mainapp/product.html", content)
-
-
 def contact(request):
     title = "о нас"
     visit_date = timezone.now()
