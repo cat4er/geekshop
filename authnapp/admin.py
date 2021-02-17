@@ -5,6 +5,7 @@ from .models import ShopUser
 
 # Register your models here.
 
+
 class ShopUserAdmin(UserAdmin):
     add_fieldsets = (
         (
