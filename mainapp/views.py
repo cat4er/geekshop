@@ -1,3 +1,5 @@
+import random
+
 from django.conf import settings
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
@@ -16,24 +18,27 @@ def main(request):
     return render(request, "mainapp/index.html", content)
 
 
+def get_basket(user):
+    if user.is_authenticated:
+        return Basket.objects.filter(user=user)
+    else:
+        return []
+
+
+def get_hot_product():
+    products = Product.objects.all()
+    return random.sample(list(products), 1)[0]
+
+
+def get_same_products(hot_product):
+    same_products = Product.objects.filter(category=hot_product.category).exclude(pk=hot_product.pk)[:3]
+    return same_products
+
+
 def products(request, pk=None):
     title = "продукты"
     links_menu = ProductCategory.objects.all()
-
-    basket = []
-    if request.user.is_authenticated:
-        basket = Basket.objects.filter(user=request.user)
-        # or you can use this
-        # _basket = request.user.basket.all()
-        # print(f'basket / _basket: {len(_basket)} / {len(basket)}')
-        total_price = 0
-        for i in range(len(Product.objects.all())):
-            qty_price = Product.objects.filter(basket__product=i).values("price").union(Basket.objects.filter(user=request.user, product__id=i)).values("quantity")
-
-            if qty_price:
-                sub = qty_price[0].get("quantity") * qty_price[1].get("quantity")
-                total_price += sub
-        # print(f' на {total_price}')
+    basket = get_basket(request.user)
 
     if pk is not None:
         if pk == 0:
@@ -49,22 +54,31 @@ def products(request, pk=None):
             "products": products,
             "media_url": settings.MEDIA_URL,
             "basket": basket,
-            "total": total_price,
         }
         return render(request, "mainapp/products_list.html", content)
-    same_products = Product.objects.all()
+    hot_product = get_hot_product()
+    same_products = get_same_products(hot_product)
     content = {
         "title": title,
         "links_menu": links_menu,
         "same_products": same_products,
         "media_url": settings.MEDIA_URL,
-        "same_products": same_products,
         "basket": basket,
-        "total": total_price,
+        "hot_product": hot_product,
     }
-    if pk:
-        print(f"User select category: {pk}")
     return render(request, "mainapp/products.html", content)
+
+
+def product(request, pk):
+    title = "продукты"
+    content = {
+        "title": title,
+        "links_menu": ProductCategory.objects.all(),
+        "product": get_object_or_404(Product, pk=pk),
+        "basket": get_basket(request.user),
+        "media_url": settings.MEDIA_URL,
+    }
+    return render(request, "mainapp/product.html", content)
 
 
 def contact(request):
