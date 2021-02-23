@@ -136,3 +136,7 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Auth model
 AUTH_USER_MODEL = "authnapp.ShopUser"
+
+# Set login path:
+#   https://docs.djangoproject.com/en/2.2/ref/settings/#login-url
+LOGIN_URL = "authnapp:login"
