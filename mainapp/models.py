@@ -4,10 +4,10 @@ from django.db import models
 
 # from import_export.admin import ImportExportActionModelAdmin
 
-
 class ProductCategory(models.Model):
     name = models.CharField(verbose_name="имя", max_length=64, unique=True)
     description = models.TextField(verbose_name="описание", blank=True)
+    is_active = models.BooleanField(verbose_name="категория активна", default=True)
 
     def __str__(self):
         return self.name
@@ -34,7 +34,6 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.pk} {self.email}"
-
 
 # class ProductAdmin(ImportExportActionModelAdmin):
 #     pass
