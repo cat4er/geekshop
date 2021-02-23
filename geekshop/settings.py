@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "import_export",
     "authnapp",
     'basketapp',
+    'adminapp',
 ]
 
 MIDDLEWARE = [
