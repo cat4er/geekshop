@@ -1,4 +1,5 @@
-from string import ascii_letters
+import hashlib
+import random
 
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
@@ -30,12 +31,15 @@ class ShopUserRegisterForm(UserCreationForm):
             raise forms.ValidationError("Вы слишком молоды!")
         return data
 
-    def clean_first_name(self):
-        data = self.cleaned_data["first_name"]
-        for c in data:
-            if c not in ascii_letters:
-                raise forms.ValidationError("Введите латинскими буквами")
-        return data
+    def save(self):
+        user = super(ShopUserRegisterForm, self).save()
+
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode("utf8")).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode("utf8")).hexdigest()
+        user.save()
+
+        return user
 
     class Meta:
         model = ShopUser
@@ -54,13 +58,6 @@ class ShopUserEditForm(UserChangeForm):
         if data < 18:
             raise forms.ValidationError("Вы слишком молоды!")
 
-        return data
-
-    def clean_first_name(self):
-        data = self.cleaned_data["first_name"]
-        for c in data:
-            if c not in ascii_letters:
-                raise forms.ValidationError("Введите латинскими буквами")
         return data
 
     class Meta:
