@@ -198,6 +198,7 @@ EMAIL_FILE_PATH = "tmp/email-messages/"
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "social_core.backends.vk.VKOAuth2",
+    "social_core.backends.github.GithubOAuth2",
 )
 
 # SOCIAL_AUTH_AUTHENTICATION_BACKENDS = ("social_core.backends.vk.VKOAuth2",)
@@ -215,6 +216,13 @@ with open("tmp/secrets/vk.json", "r") as f:
 
 SOCIAL_AUTH_VK_OAUTH2_KEY = VK["SOCIAL_AUTH_VK_OAUTH2_APPID"]
 SOCIAL_AUTH_VK_OAUTH2_SECRET = VK["SOCIAL_AUTH_VK_OAUTH2_KEY"]
+
+with open("tmp/secrets/github.json", "r") as j:
+    GH = json.load(j)
+
+SOCIAL_AUTH_GITHUB_KEY = GH["SOCIAL_AUTH_GITHUB_OAUTH2_APPID"]
+SOCIAL_AUTH_GITHUB_SECRET = GH["SOCIAL_AUTH_GITHUB_OAUTH2_API_SECRET"]
+
 
 LOGIN_ERROR_URL = "/"
 
