@@ -1,8 +1,4 @@
-# Create your models here.
-
 from django.db import models
-
-# from import_export.admin import ImportExportActionModelAdmin
 
 
 class ProductCategory(models.Model):
@@ -27,6 +23,10 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} ({self.category.name})"
 
+    @staticmethod
+    def get_items():
+        return Product.objects.filter(is_active=True).order_by("category", "name")
+
 
 class Contact(models.Model):
     phone = models.CharField(max_length=50, verbose_name="номер телефона")
@@ -36,5 +36,3 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.pk} {self.email}"
-# class ProductAdmin(ImportExportActionModelAdmin):
-#     pass
