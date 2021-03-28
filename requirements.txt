@@ -30,6 +30,7 @@ pydotplus==2.0.2
 pygraphviz==1.7
 PyJWT==2.0.1
 pyparsing==2.4.6
+python-memcached==1.59
 python-social-auth==0.3.6
 python3-openid==3.2.0
 pytoml==0.1.21
